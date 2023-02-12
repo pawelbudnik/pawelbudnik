@@ -50,6 +50,10 @@ export default function Home() {
             </p>
           </a>
         </div>
+
+        <div className="bg-gray-900 text-white p-4">
+          <h1 className="text-2xl font-bold">Hello World</h1>
+        </div>
       </main>
 
       <footer className={styles.footer}>
