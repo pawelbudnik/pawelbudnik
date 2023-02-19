@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["react", "react-dom", "prop-types"],
+    "typeRoots": ["node_modules/@types"],
     "lib": [
       "dom",
       "dom.iterable",
@@ -21,8 +23,9 @@
   "include": [
     "next-env.d.tsx",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/index.tsx"  ],
+    "**/*.tsx",
+    "pages/index.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]
