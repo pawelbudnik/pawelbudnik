@@ -8,7 +8,10 @@ Self-employed full stack developer, tech support/tutor and freelancer. Experienc
 
 *   🌍  I'm based in Interlaken, Switzerland
 *   ✉️  You can contact me at [pawelbudnik@gmail.com](mailto:pawelbudnik@gmail.com)
-*   🧠  I'm learning TypeScript and Next.js### Skills 
+*   🧠  I'm learning TypeScript and Next.js 
+
+### Skills 
+
 <p align="left">
 <a href="https://git-scm.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/git-colored.svg" width="36" height="36" alt="Git" /></a>
 <a href="https://www.oracle.com/java/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/java-colored.svg" width="36" height="36" alt="Java" /></a>
