@@ -4,7 +4,7 @@ Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-912
 Full Stack Developer
 --------------------
 
-Self-employed full stack developer, tech support/tutor and freelancer. Experienced working remotely (3 years of remote work
+Self-employed full stack developer, tech support/tutor and freelancer. Experienced working remotely (4 years of remote work)
 
 *   🌍  I'm based in Interlaken, Switzerland
 *   ✉️  You can contact me at [pawelbudnik@gmail.com](mailto:pawelbudnik@gmail.com)
