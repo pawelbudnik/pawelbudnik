@@ -9,7 +9,7 @@ const Main = () => {
         <div>
           <p className="uppercase text-sm -tracking-widest text-gray-600">About Me</p>
             <h1 className="py-4 text-gray-700">
-              Hi, I&#39;m <span className="text-[#5651e5]">Pawel</span>
+              Hi, I&#39;m <span className="text-[#5651e5]">Paweł</span>
             </h1>
             <h1 className="py-4 text-gray-700">
               A Full-Stack Software Developer
