@@ -1,6 +1,7 @@
-import { AiOutlineClose, AiOutlineMenu, AiOutlineMail } from "react-icons/ai";
-import { FaLinkedinIn, FaGithub } from "react-icons/fa";
-import { BsFillPersonLinesFill } from "react-icons/bs";
+import LinkedinIcon from "./media_icons/LinkedinIcon";
+import GithubIcon from "./media_icons/GithubIcon";
+import EmailIcon from "./media_icons/EmailIcon";
+import ResumeIcon from "./media_icons/ResumeIcon";
 
 const Main = () => {
   return (
@@ -18,18 +19,10 @@ const Main = () => {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur nostrum fugit quidem, enim, sunt sequi illum animi reiciendis quaerat totam assumenda ex numquam. Temporibus explicabo mollitia eius saepe omnis tempore.
             </p>
             <div className="flex items-center justify-between max-w-[330px] m-auto py-4">
-              <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
-                <a href='https://www.linkedin.com/in/pawel-budnik' target='blank' rel="noreferrer"><FaLinkedinIn /></a>
-              </div>
-              <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
-                <a href='https://github.com/pawelbudnik' target='blank' rel="noreferrer"><FaGithub /></a>
-              </div>
-              <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
-                <AiOutlineMail />
-              </div>
-              <div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in duration-300">
-                <BsFillPersonLinesFill />
-              </div>
+              <LinkedinIcon />
+              <GithubIcon />
+              <EmailIcon />
+              <ResumeIcon />
             </div>
         </div>
       </div>
