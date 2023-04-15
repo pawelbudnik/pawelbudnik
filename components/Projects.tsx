@@ -7,17 +7,15 @@ import ProjectItem from './ProjectItem'
 
 const Projects = () => {
   return (
-    <div className='w-full'>
+    <div id='projects' className='w-full'>
       <div className='max-w-[1240px] mx-auto px-2 py-16'>
-        <p className='text-xl tracking-widest uppercase text-[#5651e5]'>Projects</p>
-        <h2 py-4>What I&apos;ve Built</h2>
+        <p className='text-xl tracking-widest uppercase text-[#0071C5]'>Projects</p>
+        <h2 className='py-4'>What I&apos;ve Built</h2>
         <div className='grid md:grid-cols-2 gap-8'>
-
-          <ProjectItem title='Treasury Delta' backgroundImg={propertyImg} projectUrl='/property' />
-          <ProjectItem title='Cageminder' backgroundImg={cryptoImg} projectUrl='/property' />
-          <ProjectItem title='Treasury Delta' backgroundImg={netflixImg} projectUrl='/property' />
-          <ProjectItem title='Treasury Delta' backgroundImg={twitchImg} projectUrl='/property' />
-
+          <ProjectItem title='Cageminder' backgroundImg={propertyImg} projectUrl='/cageminder'/>
+          <ProjectItem title='Treasury Delta' backgroundImg={cryptoImg} projectUrl='/treasurydelta'/>
+          <ProjectItem title='Next Project' backgroundImg={netflixImg} projectUrl='/property'/>
+          <ProjectItem title='Nexter Project' backgroundImg={twitchImg} projectUrl='/property'/>
         </div>
       </div>
     </div>
