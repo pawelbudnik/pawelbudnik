@@ -18,9 +18,9 @@ const cageminder = () => {
 
       <div className='max-w-[1240px] mx-auto p-2 grid md:grid-cols-5 gap-8 py-8'>
         <div className='col-span-4'>
-          <p className='uppercase text-[#0071C5]'>Project</p>
-          <h2 className='py-4'>Overview</h2>
-          <p>
+          <h4 className='uppercase text-[#0071C5]'>Project</h4>
+          <h2 className='py-6'>Overview</h2>
+          <p className='pb-2'>
             This app was built using Laravel, a popular PHP framework that uses MVC model. Users
             are able to compare the banking fees based on the information provided. 
             This process can dramatically speed up an RFP process and remove the usual pain points.
@@ -35,7 +35,7 @@ const cageminder = () => {
         <div className='col-span-4 md:col-span-1 shadow-xl shadow-gray-400 rounded-xl py-4'>
           <div className='p-2'>
             <p className='text-center font-bold pb-2'>Technologies</p>
-            <div className='grid grid-cols-3 md:grid-cols-1'>
+            <div className='p-4  grid grid-cols-3 md:grid-cols-1'>
               <p className='text-gray-600 py-2 flex items-center'>
                 <RiRadioButtonFill className='pr-1' /> React
               </p>
@@ -58,11 +58,11 @@ const cageminder = () => {
                 <RiRadioButtonFill className='pr-1' /> MUI
               </p>
             </div>
+            <Link href='/#projects'>
+              <p className='underline cursor-pointer'>Back</p>
+            </Link>
           </div>
         </div>
-        <Link href='/#projects'>
-          <p className='underline cursor-pointer'>Back</p>
-        </Link>
       </div>
     </div>
   );
