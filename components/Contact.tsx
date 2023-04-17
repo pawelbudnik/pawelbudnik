@@ -1,20 +1,23 @@
-import Link from 'next/link'
-import React, { useRef, useState } from 'react'
-import { HiOutlineChevronDoubleUp } from 'react-icons/hi'
-import LinkedinIcon from './media_icons/LinkedinIcon'
-import GithubIcon from './media_icons/GithubIcon'
-import EmailIcon from './media_icons/EmailIcon'
-import ResumeIcon from './media_icons/ResumeIcon'
+import Link from 'next/link';
+import React, { useRef } from 'react';
+import { HiOutlineChevronDoubleUp } from 'react-icons/hi';
+import LinkedinIcon from './media_icons/LinkedinIcon';
+import GithubIcon from './media_icons/GithubIcon';
+import EmailIcon from './media_icons/EmailIcon';
+import ResumeIcon from './media_icons/ResumeIcon';
 import emailjs from 'emailjs-com';
 
 const Contact = () => {
-
+  
   const form = useRef();
+  const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID;
+  const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+  const publicKey = process.env.NEXT_PUBLIC_KEY;
 
-  const sendEmail = (e) => {
+  const sendEmail = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_m2xhi4e', 'template_bdzafwh', form.current, '7MxuNdAikJpd2RAv5')
+    emailjs.sendForm(serviceId, templateId, form.current, publicKey)
       .then((result) => {
           alert('Message sent Successfully!');
           console.log(result.text);
@@ -96,7 +99,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Contact
+export default Contact;

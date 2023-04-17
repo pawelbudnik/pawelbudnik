@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import Main from '../components/Main'
-import About from '../components/About'
-import Skills from '../components/Skills'
-import Projects from '../components/Projects'
-import Contact from '../components/Contact'
+import Head from 'next/head';
+import Main from '../components/Main';
+import About from '../components/About';
+import Skills from '../components/Skills';
+import Projects from '../components/Projects';
+import Contact from '../components/Contact';
 
 export default function Home(): JSX.Element {
   return (
@@ -19,5 +19,5 @@ export default function Home(): JSX.Element {
       <Projects />
       <Contact />
     </div>
-  )
+  );
 }

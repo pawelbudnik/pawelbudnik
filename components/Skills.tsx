@@ -1,11 +1,11 @@
-import React from 'react'
-import SkillTags from './SkillTags'
+import React from 'react';
+import SkillTags from './SkillTags';
 
 const Skills = () => {
   const skillArray = ['html', 'css', 'javascript', 'react', 'tailwind', 'github', 'shopify', 'nextjs', 'node', 'php', 'laravel', 'sql'];
   const skillComponents = skillArray.map(( skill, index ) => (
     <SkillTags key={index} skill={skill} />
-  ))
+  ));
 
   return (
     <div id='skills' className='w-full lg:h-screen p-2'>
@@ -17,7 +17,7 @@ const Skills = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Skills
+export default Skills;

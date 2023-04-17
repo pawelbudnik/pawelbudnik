@@ -27,7 +27,7 @@ const Main = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Main;
