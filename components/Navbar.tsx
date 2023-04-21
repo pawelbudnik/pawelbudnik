@@ -1,10 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { useRouter, NextRouter } from "next/router";
+import { useContext } from 'react';
+import DarkModeContext from '../hooks/DarkModeContext';
+import Image from 'next/image';
+import Link from 'next/link';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import { useRouter, NextRouter } from 'next/router';
 
-const Navbar = () => {
+const Navbar = (): JSX.Element => {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   const [nav, setNav] = useState(false);
   const [shadow, setShadow] = useState(false);
   const [navBg, setNavBg] = useState('#ecf0f3');
@@ -16,7 +20,7 @@ const Navbar = () => {
     if (
       router.asPath === '/cageminder' ||
       router.asPath === '/treasurydelta' ||
-      router.asPath === '/propertyfinder' ||
+      router.asPath === '/vast' ||
       router.asPath === '/anotherproject'
     ) {
       setNavBg('transparent');
@@ -44,7 +48,7 @@ const Navbar = () => {
       <div className='flex justify-between items-center w-full h-full px-2 2xl:px-16'>
         <Link href='/'>
             <Image
-              src={"/../public/assets/navlogo_blue.png"}
+              src={'/../public/assets/navlogo_blue.png'}
               alt='/'
               width='125'
               height='50'
@@ -72,6 +76,9 @@ const Navbar = () => {
             <li className='ml-10 text-sm uppercase hover:border-b'>
               <Link href='/#contact'>Contact</Link>
             </li>
+            <li className='ml-10 text-xl' onClick={toggleDarkMode}>
+                {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+            </li>
           </ul>
           {/* Hamburger Icon */}
           <div onClick={handleNav} className='md:hidden'>
@@ -91,7 +98,7 @@ const Navbar = () => {
             <div className='flex w-full items-center justify-between'>
               <Link href='/'>
                   <Image
-                    src={"/../public/assets/navlogo_blue.png"}
+                    src={'/../public/assets/navlogo_blue.png'}
                     width='87'
                     height='35'
                     alt='/'
