@@ -24,7 +24,8 @@
     "next-env.d.tsx",
     "**/*.ts",
     "**/*.tsx",
-    "pages/index.tsx"
+    "pages/index.tsx",
+    "utils/resumeDownload.js"  
   ],
   "exclude": [
     "node_modules"

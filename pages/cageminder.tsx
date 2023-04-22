@@ -4,9 +4,10 @@ import tdImage from '../public/assets/projects/property.jpg';
 import { RiRadioButtonFill } from 'react-icons/ri';
 import Link from 'next/link';
 
+// TODO: Turn this into a component with prop objects for 1. bg-image 2. Main/sub headers 3. overview text 4. Technologies
 const cageminder = () => {
   return (
-    <div className='w-full'>
+    <div className='w-full dark:bg-gray-900'>
       <div className='w-screen h-[50vh] relative'>
         <div className='absolute top-0 left-0 w-full h-[50vh] bg-black/70 z-10' />
         <Image className='absolute z-1 object-cover' fill src={tdImage} alt='/' />
