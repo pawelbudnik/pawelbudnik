@@ -2,6 +2,7 @@ import LinkedinIcon from "./media_icons/LinkedinIcon";
 import GithubIcon from "./media_icons/GithubIcon";
 import EmailIcon from "./media_icons/EmailIcon";
 import ResumeIcon from "./media_icons/ResumeIcon";
+import { Waves } from "./Waves";
 
 const Main = () => {
   return (
@@ -24,6 +25,7 @@ const Main = () => {
               <EmailIcon />
               <ResumeIcon />
             </div>
+            <Waves />
         </div>
       </div>
     </div>
