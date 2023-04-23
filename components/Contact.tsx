@@ -42,7 +42,7 @@ const Contact = (): JSX.Element => {
             <div className='col-span-3 lg:col-span-2 w-full h-full shadow-xl shadow-gray-400 dark:shadow-gray-700 rounded-xl p-4'>
               <div className='lg:p-4 h-full'>
                 <div>
-                  <img className='rounded-xl hover:scale-105 easie-in duration-100' src='https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y29udGFjdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60' alt='' />
+                  <img className='rounded-xl hover:scale-105 easie-in duration-100' src='https://images.unsplash.com/photo-1512428559087-560fa5ceab42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNvbnRhY3R8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60' alt='' />
                 </div>
                 <div>
                   <h2 className='py-6 dark:text-gray-300'>Paweł Budnik</h2>

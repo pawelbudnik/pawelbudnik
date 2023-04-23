@@ -7,29 +7,16 @@ const Main = () => {
   return (
     <div id="home" className="w-full h-screen text-center"> 
       <div className="max-w-[1240px] w-full h-full mx-auto p-2 flex justify-center items-center">
-
-        {/* Dark mode example */}
-        {/* <div className="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-          <div>
-           
-          </div>
-          <h3 className="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">
-            The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
-          </p>
-        </div> */}
-        {/* Dark mode example */}
-
         <div>
-          <p className="uppercase text-sm tracking-widest text-gray-600 dark:text-gray-400">All you need to know about me</p>
+          <p className="uppercase text-sm tracking-widest text-gray-600 dark:text-gray-400">What you might want to know about me</p>
             <h1 className="py-4 text-gray-700 dark:text-gray-300">
-              Hi, I&#39;m <span className="text-[#0071C5]">Paweł</span>
+              Hi there, I&#39;m <span className="text-[#0071C5]">Paweł</span>
             </h1>
             <h1 className="py-4 text-gray-700 dark:text-gray-300">
-              A Full-Stack Software Developer
+              A Full-Stack Software Developer.
             </h1>
             <p className="py-4 text-gray-600 dark:text-gray-400 max-w-[70%] m-auto">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur nostrum fugit quidem, enim, sunt sequi illum animi reiciendis quaerat totam assumenda ex numquam. Temporibus explicabo mollitia eius saepe omnis tempore.
+              I&#39;m a Developer with a passion for creating elegant and user-friendly applications. With <span className="text-[#0071C5] text-lg">8</span> years of experience under my belt, I specialize in building scalable solutions that deliver value to my clients and users alike.
             </p>
             <div className="flex items-center justify-between max-w-[330px] m-auto py-4">
               <LinkedinIcon />
