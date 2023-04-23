@@ -1,7 +1,7 @@
 import React from 'react'
-import propertyImg from '../public/assets/projects/property.jpg';
-import cryptoImg from '../public/assets/projects/crypto.jpg';
-import netflixImg from '../public/assets/projects/netflix.jpg';
+import cageminder from '../public/assets/projects/cageminder_logo.jpg';
+import treasurydelta from '../public/assets/projects/td_logo.png';
+import vast from '../public/assets/projects/vast_logo.png';
 import twitchImg from '../public/assets/projects/twitch.jpg';
 import ProjectItem from './ProjectItem';
 
@@ -12,10 +12,10 @@ const Projects = () => {
         <p className='text-xl tracking-widest uppercase text-[#0071C5]'>Projects</p>
         <h2 className='py-4 dark:text-gray-300'>What I&apos;ve Built</h2>
         <div className='grid md:grid-cols-2 gap-8'>
-          <ProjectItem title='Cageminder' backgroundImg={propertyImg} tech='React JS' projectUrl='/cageminder'/>
-          <ProjectItem title='Treasury Delta' backgroundImg={cryptoImg} tech='Laravel' projectUrl='/cageminder'/>
-          <ProjectItem title='Vast' backgroundImg={netflixImg} tech='Next JS' projectUrl='/cageminder'/>
-          <ProjectItem title='Nexter Project' backgroundImg={twitchImg} tech='some tech here' projectUrl='/cageminder'/>
+          <ProjectItem title='Cageminder' backgroundImg={cageminder} tech='React JS' projectUrl='/Cageminder'/>
+          <ProjectItem title='Treasury Delta' backgroundImg={treasurydelta} tech='Laravel' projectUrl='/TreasuryDelta'/>
+          <ProjectItem title='Vast' backgroundImg={vast} tech='Next.js' projectUrl='/Vast'/>
+          <ProjectItem title='Nexter Project' backgroundImg={twitchImg} tech='some tech here' projectUrl='/Cageminder'/>
         </div>
       </div>
     </div>
