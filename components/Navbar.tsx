@@ -81,9 +81,14 @@ const Navbar = (): JSX.Element => {
                 {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
             </li>
           </ul>
-          {/* Hamburger Icon */}
-          <div onClick={handleNav} className='md:hidden'>
-            <AiOutlineMenu size={25} />
+          {/* Mobile nav elements */}
+          <div className='md:hidden flex flex-row'>
+            <div className='text-xl pr-10 pt-0.5' onClick={toggleDarkMode}>
+                {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+            </div>
+            <div onClick={handleNav}>
+              <AiOutlineMenu size={25} />
+            </div>
           </div>
         </div>
       </div>
@@ -143,9 +148,6 @@ const Navbar = (): JSX.Element => {
                   Contact
                 </li>
               </Link>
-              <li className='py-4 text-xl' onClick={toggleDarkModeFromSidebar}>
-                {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
-              </li>
             </ul>
           </div>
         </div>
