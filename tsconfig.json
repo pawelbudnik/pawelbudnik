@@ -3,6 +3,7 @@
     "types": ["react", "react-dom", "prop-types"],
     "typeRoots": ["node_modules/@types"],
     "lib": [
+      "ES6",
       "dom",
       "dom.iterable",
       "esnext"
