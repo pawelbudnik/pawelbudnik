@@ -6,6 +6,7 @@ import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useRouter, NextRouter } from 'next/router';
+import NavLogo from '../public/assets/navlogo_blue.png';
 
 const Navbar = (): JSX.Element => {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -16,12 +17,11 @@ const Navbar = (): JSX.Element => {
   const router: NextRouter = useRouter();
 
   useEffect(() => {
-    // TODO: Find out what all projects are going to be and put the routes here.
     if (
       router.asPath === '/cageminder' ||
       router.asPath === '/treasurydelta' ||
       router.asPath === '/vast' ||
-      router.asPath === '/anotherproject'
+      router.asPath === '/PB'
     ) {
       setNavBg('transparent');
       setLinkColor('#ecf0f3');
@@ -33,6 +33,11 @@ const Navbar = (): JSX.Element => {
 
   const handleNav = () => {
     setNav(!nav);
+  }
+
+  const toggleDarkModeFromSidebar = () => {
+    toggleDarkMode();
+    setNav(false);
   }
 
   useEffect(() => {
@@ -47,13 +52,7 @@ const Navbar = (): JSX.Element => {
       className={shadow ? 'fixed w-full h-20 shadow-xl z-[100]' : 'fixed w-full h-20 z-[100]'}>
       <div className='flex justify-between items-center w-full h-full px-2 2xl:px-16'>
         <Link href='/'>
-            <Image
-              src={'/../public/assets/navlogo_blue.png'}
-              alt='/'
-              width='125'
-              height='50'
-              className='cursor-pointer'
-            />
+            <Image src={NavLogo} alt='/' width='125' height='50' className='cursor-pointer'/>
         </Link>
         <div>
           <ul style={{ color: `${linkColor}`}}
@@ -97,24 +96,18 @@ const Navbar = (): JSX.Element => {
             : 'fixed left-[-100%] top-0 p-10 ease-in duration-100'}
         >
           <div>
+            
             <div className='flex w-full items-center justify-between'>
               <Link href='/'>
-                  <Image
-                    src={'/../public/assets/navlogo_blue.png'}
-                    width='87'
-                    height='35'
-                    alt='/'
-                  />
+                  <Image src={NavLogo} width='87' height='35' alt='/'/>
               </Link>
-              <div onClick={handleNav}
-                className='rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer'
-              >
+              <div onClick={handleNav} className='rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer'>
                 <AiOutlineClose />
               </div>
             </div>
             <div className='border-b border-gray-300 my-4'>
-              <p className='w-[85%] md:w-[90%] py-4'>
-                Let&#39;s build something legendary together
+              <p className={nav ? 'w-[85%] md:w-[90%] py-4' : 'hidden'}>
+                Let&#39;s collaborate to create something truly remarkable
               </p>
             </div>
           </div>
@@ -140,16 +133,19 @@ const Navbar = (): JSX.Element => {
                   Projects
                 </li>
               </Link>
-              <Link href='/resume'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
-                  Resume
+                  <a href="/resume/Resume-Pawel-Budnik.pdf" download>
+                    Resume
+                  </a>
                 </li>
-              </Link>
               <Link href='/#contact'>
                 <li onClick={() => setNav(false)} className='py-4 text-sm'>
                   Contact
                 </li>
               </Link>
+              <li className='py-4 text-xl' onClick={toggleDarkModeFromSidebar}>
+                {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
+              </li>
             </ul>
           </div>
         </div>

@@ -39,9 +39,6 @@ const TreasuryDelta = () => {
             <a href='https://treasurydelta.com/' target='_blank' rel='noreferrer'>
               <button className='px-8 py-2 mt-4 mr-8 dark:shadow-gray-700'>Landing Page</button>
             </a>
-            {/* <a href='https://property-finder-development.web.app/' target='_blank' rel='noreferrer'>
-              <button disabled className='px-8 py-2 mt-4 dark:shadow-gray-700'>Demo</button>
-            </a> */}
           </div>
           <div className='col-span-4 md:col-span-1 shadow-xl shadow-gray-400 dark:shadow-gray-700 rounded-xl py-4'>
             <div className='p-2'>

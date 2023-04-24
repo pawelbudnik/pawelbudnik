@@ -33,9 +33,9 @@ const PB = () => {
             <a href='https://github.com/pawelbudnik/pawelbudnik/' target='_blank' rel='noreferrer'>
               <button className='px-8 py-2 mt-4 mr-8 dark:shadow-gray-700'>Code</button>
             </a>
-            <a href='https://pawelbudnik.com/' target='_blank' rel='noreferrer'>
+            <Link href='/'>
               <button className='px-8 py-2 mt-4 dark:shadow-gray-700'>Website</button>
-            </a>
+            </Link>
           </div>
           <div className='col-span-4 md:col-span-1 shadow-xl shadow-gray-400 dark:shadow-gray-700 rounded-xl py-4'>
             <div className='p-2'>

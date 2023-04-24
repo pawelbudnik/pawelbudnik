@@ -31,17 +31,11 @@ const Cageminder = () => {
               It replaced an older version of similar system as the design is clearer, more accessible via mobile devices and more responsive.
             </p>
             <p className='pb-4 dark:text-gray-300'>
+              I was hired as a solo developer and had the responsibility of designing, building, hosting and securing this platform on my own. It connects to a remote database and uses various APIs to send data to external servers, which enables it to perform various tasks such as product registration or time management.
+            </p>
+            <p className='pb-4 dark:text-gray-300'>
               Unfortunately, I am unable to provide access to the code or a demo version of the application due to data protection regulations and client confidentiality agreements. However, I am happy to discuss the technical aspects of the project and share my experience working on it.
             </p>
-            {/* <p className='pb-4 dark:text-gray-300'>
-              You can view a sample screen of the application in action below
-            </p>
-            <a href='https://github.com/fireclint/property-finder' target='_blank' rel='noreferrer'>
-              <button className='px-8 py-2 mt-4 mr-8 dark:shadow-gray-700'>Screen cast</button>
-            </a> */}
-            {/* <a href='https://property-finder-development.web.app/' target='_blank' rel='noreferrer'>
-              <button disabled className='px-8 py-2 mt-4 dark:shadow-gray-700'>Demo</button>
-            </a> */}
           </div>
           <div className='col-span-4 md:col-span-1 shadow-xl shadow-gray-400 dark:shadow-gray-700 rounded-xl py-4'>
             <div className='p-2'>

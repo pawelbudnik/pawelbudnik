@@ -6,8 +6,7 @@ const About = (): JSX.Element => {
     <div id='about' className='w-full md:h-screen p-2 flex items-center py-16'>
       <div className='max-w-[1240px] m-auto md:grid grid-cols-3 gap-8'>
         <div className='col-span-2'>
-          <p className='text-xl tracking-widest uppercase text-[#0071C5]'>About</p>
-          <h2 className='py-4 dark:text-gray-300'>Who Am I?</h2>
+          <h2 className='py-4 tracking-widest uppercase text-[#0071C5]'>About Me</h2>
           <p className='py-2 text-gray-600 dark:text-gray-400'>
             Hi there! My name is Paweł Budnik, and Im a full-stack software developer with 8 years of experience in developing large applications and proprietary software. Throughout my career, I&#39;ve had the opportunity to work on a variety of projects, including tech support, creating Shopify stores, and collaborating on open-source projects.
           </p>
