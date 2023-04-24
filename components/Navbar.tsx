@@ -35,11 +35,6 @@ const Navbar = (): JSX.Element => {
     setNav(!nav);
   }
 
-  const toggleDarkModeFromSidebar = () => {
-    toggleDarkMode();
-    setNav(false);
-  }
-
   useEffect(() => {
     const handleShadow = () => {
       window.scrollY >= 90 ? setShadow(true) : setShadow(false);
@@ -51,7 +46,7 @@ const Navbar = (): JSX.Element => {
     <div style={{ backgroundColor: `${navBg}`}}
       className={shadow ? 'fixed w-full h-20 shadow-xl z-[100]' : 'fixed w-full h-20 z-[100]'}>
       <div className='flex justify-between items-center w-full h-full px-2 2xl:px-16'>
-        <Link href='/'>
+        <Link href='/' >
             <Image src={NavLogo} alt='/' width='125' height='50' className='cursor-pointer'/>
         </Link>
         <div>
@@ -103,7 +98,7 @@ const Navbar = (): JSX.Element => {
           <div>
             
             <div className='flex w-full items-center justify-between'>
-              <Link href='/'>
+              <Link href='/' onClick={() => setNav(false)}>
                   <Image src={NavLogo} width='87' height='35' alt='/'/>
               </Link>
               <div onClick={handleNav} className='rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer'>
