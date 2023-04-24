@@ -6,9 +6,9 @@ import GithubIcon from './media_icons/GithubIcon';
 import EmailIcon from './media_icons/EmailIcon';
 import ResumeIcon from './media_icons/ResumeIcon';
 import emailjs from 'emailjs-com';
+import Image from 'next/image';
 
 const Contact = (): JSX.Element => {
-  
   const form = useRef();
   const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID;
   const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
@@ -42,7 +42,8 @@ const Contact = (): JSX.Element => {
             <div className='col-span-3 lg:col-span-2 w-full h-full shadow-xl shadow-gray-400 dark:shadow-gray-700 rounded-xl p-4'>
               <div className='lg:p-4 h-full'>
                 <div>
-                  <img className='rounded-xl hover:scale-105 easie-in duration-100' src='https://images.unsplash.com/photo-1512428559087-560fa5ceab42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGNvbnRhY3R8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60' alt='' />
+                  
+                  <Image className='rounded-xl hover:scale-105 easie-in duration-100' src='/assets/img/contact_img.avif' alt='' width={420} height={250}/>
                 </div>
                 <div>
                   <h2 className='py-6 dark:text-gray-300'>Paweł Budnik</h2>
