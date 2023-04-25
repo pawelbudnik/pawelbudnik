@@ -21,7 +21,7 @@ const Navbar = (): JSX.Element => {
       router.asPath === '/cageminder' ||
       router.asPath === '/treasurydelta' ||
       router.asPath === '/vast' ||
-      router.asPath === '/PB'
+      router.asPath === '/pb'
     ) {
       setNavBg('transparent');
       setLinkColor('#ecf0f3');
