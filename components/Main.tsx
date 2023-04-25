@@ -5,6 +5,8 @@ import ResumeIcon from "./media_icons/ResumeIcon";
 import { Waves } from "./Waves";
 
 const Main = () => {
+  console.log(process.env.NEXT_PUBLIC_JES);
+  
   return (
     <div id="home" className="w-full h-screen text-center"> 
       <div className="max-w-[1240px] w-full h-full mx-auto p-2 flex justify-center items-center">
