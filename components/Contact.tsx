@@ -35,7 +35,7 @@ const Contact = (): JSX.Element => {
           <p className='text-xl tracking-widest uppercase text-[#0071C5]'>
             Contact
           </p>
-          <h2 className='py-4 dark:text-gray-300'>Get In Touch</h2>
+          <h2 className='py-4 dark:text-gray-300'>Get in touch</h2>
           <div className='grid lg:grid-cols-5 gap-8'>
 
             {/* left */}

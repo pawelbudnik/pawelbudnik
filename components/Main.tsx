@@ -25,7 +25,7 @@ const Main = () => {
               <EmailIcon />
               <ResumeIcon />
             </div>
-            <div className="hidden min-[400px]:block">
+            <div className="hidden min-[964px]:block">
               <Waves />
             </div>
         </div>

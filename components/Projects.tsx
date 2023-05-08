@@ -14,7 +14,7 @@ const Projects = () => {
     <div id='projects' className='w-full'>
       <div className='max-w-[1240px] mx-auto px-2 py-16'>
         <p className='text-xl tracking-widest uppercase text-[#0071C5]'>Projects</p>
-        <h2 className='py-4 dark:text-gray-300'>Projects I&apos;ve Been involved in</h2>
+        <h2 className='py-4 dark:text-gray-300'>Projects I&apos;ve been involved in</h2>
         <div className='grid md:grid-cols-2 gap-8'>
           <ProjectItem title='Cageminder' backgroundImg={cageminder} tech='React JS' projectUrl='/cageminder'/>
           <ProjectItem title='Treasury Delta' backgroundImg={treasurydelta} tech='Laravel' projectUrl='/treasurydelta'/>

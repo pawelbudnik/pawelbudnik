@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { BsFillPersonLinesFill } from 'react-icons/bs';
 
 function ResumeIcon(): JSX.Element {
