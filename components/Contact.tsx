@@ -28,7 +28,8 @@ const Contact = (): JSX.Element => {
   };
   
   return (
-    <div id='contact' className='w-full lg:h-screen'>
+    // contact div used to have "lg:h-screen" parameter instead of "h-full" but it was introducing a grey break point on laptop screen.
+    <div id='contact' className='w-full h-full'> 
       <div className='dark:bg-gray-900'>
 
         <div className='max-w-[1240px] m-auto px-2 py-16 w-full'>
