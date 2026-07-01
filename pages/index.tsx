@@ -16,6 +16,7 @@ export default function Home(): JSX.Element {
         <Head>
           <title>Paweł | Full-Stack Developer</title>
           <meta name="description" content="Welcome to my portfolio website! I am a Full-Stack Developer. Browse through my projects and experience to learn more about my skills and capabilities" />
+          <meta name="optiweather-verification" content="optiweather-verify-386107c24784fefc"/>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Main />
