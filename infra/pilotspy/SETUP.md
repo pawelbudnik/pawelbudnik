@@ -8,8 +8,9 @@ serves the viewer and authenticates every image/status request. Private R2 conta
 only `current.jpg` and `cat.jpg`. No Drive links or storage credentials reach the
 browser. Drive remains an optional backup through the unchanged existing script.
 
-**External infrastructure has not been configured or tested.** This checkout has
-no working GitHub CLI authentication or Cloudflare credentials. DNS was checked:
+**External infrastructure has not been configured or tested.** This session has
+no Cloudflare credentials. GitHub CLI authentication was invalid, but Git push
+succeeded using local credentials after sandbox escalation. DNS was checked:
 `pawelbudnik.com` currently uses `dns1.registrar-servers.com` and
 `dns2.registrar-servers.com`, not Cloudflare. SSH answered on the supplied LAN host,
 but its host key is not trusted by this session. No host key check was bypassed.
@@ -177,7 +178,8 @@ successful captures. All displayed times use Europe/Zurich.
 
 ## 4. GitHub deployment
 
-GitHub authentication in this session was invalid. On an authenticated machine:
+Git push is available through local credentials outside the sandbox; GitHub CLI
+may need separate authentication to inspect Actions. To publish future changes:
 
 ```powershell
 gh auth login -h github.com
