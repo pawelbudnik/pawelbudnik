@@ -6,9 +6,10 @@ import styles from '../styles/PilotSpy.module.css';
 
 const API = 'https://webcam.pawelbudnik.com';
 type SnapshotStatus = { active: boolean; captured: string | null; opens: string | null; closes: string | null };
-const displayTime = (value: string) => new Date(value).toLocaleString(undefined, {
-  timeZone: 'Europe/Zurich', dateStyle: 'medium', timeStyle: 'short',
-}) + ' (Europe/Zurich)';
+const displayTime = (value: string) => new Date(value).toLocaleString('en-GB', {
+  timeZone: 'Europe/Zurich', day: '2-digit', month: '2-digit', year: 'numeric',
+  hour: '2-digit', minute: '2-digit', hour12: false,
+});
 
 export default function SeeTakeoffs() {
   const [authenticated, setAuthenticated] = useState(false);
