@@ -63,7 +63,7 @@ async function route(req,env) {
     let schedule; try { schedule=JSON.parse(new TextDecoder().decode(raw)); } catch { return response('Invalid schedule',400); }
     const start=Date.parse(schedule.opens), end=Date.parse(schedule.closes);
     if(![start,end].every(Number.isFinite) || end<=start || end-start>86400000 || end<Date.now() || start>Date.now()+172800000) return response('Invalid schedule',400);
-    await env.SNAPSHOTS.put('schedule.json',JSON.stringify({start,end}),{httpMetadata:{contentType:'application/json'}});
+    await env.SNAPSHOTS.put('schedule.json',JSON.stringify({start,end,updated:Date.now()}),{httpMetadata:{contentType:'application/json'}});
     return json({ok:true});
   }
   if(path === '/upload' && req.method==='PUT') {

@@ -4,6 +4,7 @@ import datetime as dt
 import fcntl
 import json
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 from pathlib import Path
 import signal
@@ -15,11 +16,23 @@ UTC = dt.timezone.utc
 ROOT = Path('/config/pilotspy')
 LOG = logging.getLogger('pilotspy')
 
+def supervisor_token():
+    token = os.environ.get('SUPERVISOR_TOKEN')
+    if not token:
+        path = Path('/run/s6/container_environment/SUPERVISOR_TOKEN')
+        if path.is_file():
+            token = path.read_text().strip()
+    if token:
+        # SSH login shells omit the container environment; the existing capture
+        # script also needs this token when launched as a child.
+        os.environ['SUPERVISOR_TOKEN'] = token
+    return token
+
 def parse(value):
     return dt.datetime.fromisoformat(value.replace('Z', '+00:00')).astimezone(UTC)
 
 def ha_get(config, path):
-    token = config.get('ha_token') or os.environ.get('SUPERVISOR_TOKEN')
+    token = config.get('ha_token') or supervisor_token()
     if not token:
         raise RuntimeError('missing_ha_authentication')
     request = urllib.request.Request(config['ha_url'].rstrip('/') + '/api/' + path,
@@ -60,9 +73,13 @@ def capture(config):
         if proc.poll() is None:
             os.killpg(proc.pid, signal.SIGKILL)
             proc.wait()
-    image = Path(config['snapshot_path'])
+    candidates = [Path(config['snapshot_path'])]
+    if config.get('fallback_snapshot_path'):
+        candidates.append(Path(config['fallback_snapshot_path']))
+    fresh = [p for p in candidates if p.is_file() and p.stat().st_mtime >= started-1]
+    image = max(fresh,key=lambda p:p.stat().st_mtime) if fresh else None
     # Drive failure can still leave a valid fresh local image for the private upload.
-    if not image.is_file() or image.stat().st_mtime < started-1:
+    if image is None:
         raise RuntimeError('no_fresh_snapshot')
     if code:
         LOG.warning('Existing capture command returned a failure; using its fresh local snapshot')
@@ -76,7 +93,7 @@ def capture(config):
 def upload(config, data, captured, start, end):
     request = urllib.request.Request(config['worker_url'].rstrip('/')+'/upload', data=data,
         method='PUT', headers={'Authorization':'Bearer '+config['upload_token'],
-        'Content-Type':'image/jpeg', 'X-Captured-At':captured.isoformat(),
+        'Content-Type':'image/jpeg', 'User-Agent':'PilotSpy/1.0', 'X-Captured-At':captured.isoformat(),
         'X-Opens-At':start.isoformat(), 'X-Closes-At':end.isoformat()})
     with urllib.request.urlopen(request, timeout=45) as response:
         if response.status != 200:
@@ -85,7 +102,7 @@ def upload(config, data, captured, start, end):
 def publish_schedule(config, start, end):
     request = urllib.request.Request(config['worker_url'].rstrip('/')+'/schedule',
         data=json.dumps({'opens':start.isoformat(),'closes':end.isoformat()}).encode(),
-        method='PUT',headers={'Authorization':'Bearer '+config['upload_token'],'Content-Type':'application/json'})
+        method='PUT',headers={'Authorization':'Bearer '+config['upload_token'],'Content-Type':'application/json','User-Agent':'PilotSpy/1.0'})
     with urllib.request.urlopen(request,timeout=20) as response:
         if response.status != 200:
             raise RuntimeError('schedule_upload_failed')
@@ -128,6 +145,8 @@ def run(config, once=False):
                 # Persist before invoking camera: restart cannot duplicate this five-minute slot.
                 state['last_slot'] = slot
                 save(state_path,state)
+                # Preserve the existing script's post-sunset cache on restarts.
+                (ROOT/'sunset.txt').write_text((window[1]-dt.timedelta(minutes=30)).isoformat())
                 data, captured = capture(config)
                 if not window[0] <= captured <= window[1]:
                     raise RuntimeError('capture_outside_window')
@@ -150,8 +169,10 @@ if __name__ == '__main__':
     parser.add_argument('--once',action='store_true')
     args=parser.parse_args()
     signal.signal(signal.SIGTERM, lambda *_: sys_exit())
-    logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
+    os.umask(0o077)
     ROOT.mkdir(parents=True,exist_ok=True)
+    logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s',
+        handlers=[RotatingFileHandler(ROOT/'scheduler.log',maxBytes=1000000,backupCount=3)])
     # The advisory lock is held for the entire daemon lifetime, also covering manual --once runs.
     with (ROOT/'scheduler.lock').open('w') as lock:
         try:
