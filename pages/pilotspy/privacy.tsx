@@ -1,5 +1,6 @@
 
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function PilotSpyPrivacy() {
   return (
@@ -41,7 +42,7 @@ export default function PilotSpyPrivacy() {
       <p>
         Google Drive authorization is used solely for
         managing these snapshots. OAuth credentials
-        are stored on the operator's local device
+        are stored on the operator&apos;s local device
         and are not shared with viewers.
       </p>
 
@@ -77,9 +78,9 @@ export default function PilotSpyPrivacy() {
       </p>
 
       <p>
-        <a href="/pilotspy/">
-          Back to PilotSpy
-        </a>
+        <Link href="/pilotspy/" legacyBehavior>
+          <a>Back to PilotSpy</a>
+        </Link>
       </p>
     </main>
   );
