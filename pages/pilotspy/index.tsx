@@ -1,5 +1,6 @@
 
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function PilotSpy() {
   return (
@@ -35,9 +36,9 @@ export default function PilotSpy() {
       </p>
 
       <p>
-        <a href="/pilotspy/privacy/">
-          Privacy Policy
-        </a>
+        <Link href="/pilotspy/privacy/" legacyBehavior>
+          <a>Privacy Policy</a>
+        </Link>
       </p>
 
       <p>
