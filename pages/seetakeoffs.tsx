@@ -105,8 +105,6 @@ export default function SeeTakeoffs() {
       <link rel="canonical" href="https://pawelbudnik.com/seetakeoffs/" />
       <meta property="og:url" content="https://pawelbudnik.com/seetakeoffs/" />
     </Head>
-    <div className={styles.intro}><span className={styles.eyebrow}>PRIVATE MOUNTAIN WEATHER CAMERA</span>
-      <h1>PilotSpy</h1><p>See the mountains. Plan your next flight.</p></div>
     {checking ? <section className={styles.card}><p role="status">Checking your sign-in...</p></section> : !authenticated ?
       <section className={styles.card}>
         <form onSubmit={login} className={styles.form}>

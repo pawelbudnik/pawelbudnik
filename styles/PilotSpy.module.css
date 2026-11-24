@@ -1,7 +1,4 @@
 .page { max-width:1100px; margin:0 auto; padding:120px clamp(16px,4vw,40px) 40px; color:#173733; min-height:100vh; }
-.intro h1 { font-size:clamp(36px,7vw,56px); font-weight:700; margin:8px 0; letter-spacing:-.04em; }
-.intro p { margin:0; line-height:1.7; }
-.eyebrow { color:#46645f; font-size:12px; font-weight:700; letter-spacing:.12em; }
 .card { background:#fff; border:1px solid #d5e1de; border-radius:20px; padding:clamp(20px,4vw,32px); margin-top:28px; box-shadow:0 12px 35px #1737330a; }
 .form { max-width:420px; display:flex; flex-direction:column; align-items:flex-start; gap:12px; }
 .form label { font-weight:600; }
