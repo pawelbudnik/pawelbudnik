@@ -13,5 +13,4 @@
 .muted { color:#46645f; line-height:1.7; margin-top:16px; overflow-wrap:anywhere; }
 .hours { line-height:1.8; font-size:14px; color:#46645f; }
 .message { min-height:1.6em; margin:16px 0; color:#8b3024; line-height:1.6; }
-.privacy { font-size:14px; margin-top:20px; text-decoration:underline; }
 @media(max-width:480px) { .page{padding-top:8px} .card{border-radius:14px} .actions button{flex:1} }

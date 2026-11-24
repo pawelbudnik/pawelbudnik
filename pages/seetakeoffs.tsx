@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Protected image blobs must stay in this browser. */
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import styles from '../styles/PilotSpy.module.css';
 
 const API = 'https://webcam.pawelbudnik.com';
@@ -125,6 +124,5 @@ export default function SeeTakeoffs() {
     <p className={styles.message} role="status" aria-live="polite">{message}</p>
     <p className={styles.hours}>Snapshots operate from one hour before sunrise until 30 minutes after sunset.<br />
       Automatically refreshed every five minutes. Operational times come from Home Assistant&apos;s sun.sun entity.</p>
-    <p className={styles.privacy}><Link href="/pilotspy/privacy/">Privacy policy</Link></p>
   </main>;
 }
