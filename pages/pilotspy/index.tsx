@@ -36,9 +36,7 @@ export default function PilotSpy() {
       </p>
 
       <p>
-        <Link href="/pilotspy/privacy/" legacyBehavior>
-          <a>Privacy Policy</a>
-        </Link>
+        <Link href="/pilotspy/privacy/">Privacy Policy</Link>
       </p>
 
       <p>
