@@ -1,0 +1,14 @@
+name = "pilotspy"
+main = "worker.mjs"
+compatibility_date = "2026-11-01"
+workers_dev = false
+routes = [{ pattern = "webcam.pawelbudnik.com", custom_domain = true }]
+
+[[r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "pilotspy-private"
+
+[[ratelimits]]
+name = "LOGIN_LIMIT"
+namespace_id = "172601"
+simple = { limit = 5, period = 60 }

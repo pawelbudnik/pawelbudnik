@@ -35,3 +35,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PilotSpy credentials and local tooling
+infra/pilotspy/.dev.vars*
+infra/pilotspy/.wrangler/
+**/scheduler.json
+**/scheduler-state.json
+**/__pycache__/

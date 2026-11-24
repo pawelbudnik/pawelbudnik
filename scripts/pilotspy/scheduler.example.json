@@ -1,0 +1,8 @@
+{
+  "ha_url": "http://homeassistant:8123",
+  "ha_token": "REPLACE_WITH_HOME_ASSISTANT_LONG_LIVED_ACCESS_TOKEN",
+  "worker_url": "https://webcam.pawelbudnik.com",
+  "upload_token": "REPLACE_WITH_SEPARATE_RANDOM_UPLOAD_SECRET",
+  "capture_command": ["python3", "/config/pilotspy/pilotspy.py"],
+  "snapshot_path": "/config/pilotspy/REPLACE_WITH_EXISTING_SCRIPT_LOCAL_JPEG_PATH.jpg"
+}
