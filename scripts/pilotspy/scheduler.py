@@ -19,8 +19,11 @@ def parse(value):
     return dt.datetime.fromisoformat(value.replace('Z', '+00:00')).astimezone(UTC)
 
 def ha_get(config, path):
+    token = config.get('ha_token') or os.environ.get('SUPERVISOR_TOKEN')
+    if not token:
+        raise RuntimeError('missing_ha_authentication')
     request = urllib.request.Request(config['ha_url'].rstrip('/') + '/api/' + path,
-        headers={'Authorization': 'Bearer ' + config['ha_token']})
+        headers={'Authorization': 'Bearer ' + token})
     with urllib.request.urlopen(request, timeout=20) as response:
         return json.load(response)
 
@@ -79,6 +82,14 @@ def upload(config, data, captured, start, end):
         if response.status != 200:
             raise RuntimeError('upload_failed')
 
+def publish_schedule(config, start, end):
+    request = urllib.request.Request(config['worker_url'].rstrip('/')+'/schedule',
+        data=json.dumps({'opens':start.isoformat(),'closes':end.isoformat()}).encode(),
+        method='PUT',headers={'Authorization':'Bearer '+config['upload_token'],'Content-Type':'application/json'})
+    with urllib.request.urlopen(request,timeout=20) as response:
+        if response.status != 200:
+            raise RuntimeError('schedule_upload_failed')
+
 def run(config, once=False):
     state_path = ROOT/'scheduler-state.json'
     try:
@@ -107,7 +118,11 @@ def run(config, once=False):
                 if attrs.get('next_setting') and parse(attrs['next_setting']) > now-dt.timedelta(days=2):
                     unique[(attrs.get('next_rising'),attrs['next_setting'])] = {'attributes':attrs}
             state['records'] = list(unique.values())
-            window = next(((start,end) for start,end in windows(state['records']) if start<=now<=end), None)
+            predicted = windows(state['records'])
+            next_window = next(((start,end) for start,end in predicted if end>=now), None)
+            if next_window:
+                publish_schedule(config,*next_window)
+            window = next(((start,end) for start,end in predicted if start<=now<=end), None)
             slot = int(now.timestamp()//300)
             if window and slot != state['last_slot']:
                 # Persist before invoking camera: restart cannot duplicate this five-minute slot.

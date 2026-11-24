@@ -42,3 +42,6 @@ infra/pilotspy/.wrangler/
 **/scheduler.json
 **/scheduler-state.json
 **/__pycache__/
+
+# Temporary local PilotSpy SSH session (never commit credentials or device output)
+.pilotspy-local/

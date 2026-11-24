@@ -13,6 +13,7 @@ export default function PilotSpyPrivacy() {
     }}>
       <Head>
         <title>PilotSpy - Privacy Policy</title>
+        <link rel="canonical" href="https://pawelbudnik.com/pilotspy/privacy/" />
       </Head>
 
       <h1>PilotSpy Privacy Policy</h1>
@@ -53,16 +54,18 @@ export default function PilotSpyPrivacy() {
         to its storage and retention policies.
       </p>
       <p>
-        Images may be shared with selected viewers through
-        Google Drive. Personal data is not sold or used
+        The website serves snapshots from private Cloudflare R2 storage only
+        after password authentication. Google Drive remains a private backup
+        accessible to authorized Drive users. Personal data is not sold or used
         for advertising.
       </p>
 
       <h2>Third-Party Services</h2>
       <p>
-        Google processes uploaded images and account
-        authorization data according to its applicable
-        privacy policies.
+        Google processes backup images and account authorization data. Cloudflare
+        processes private website images and authentication requests. A secure,
+        HTTP-only session cookie remembers sign-in for approximately 30 days;
+        logging out clears it. Login rate limiting uses the connecting IP address.
       </p>
 
       <h2>Data Access and Deletion</h2>
@@ -78,7 +81,7 @@ export default function PilotSpyPrivacy() {
       </p>
 
       <p>
-        <Link href="/pilotspy/">Back to PilotSpy</Link>
+        <Link href="/seetakeoffs/">Back to PilotSpy</Link>
       </p>
     </main>
   );
