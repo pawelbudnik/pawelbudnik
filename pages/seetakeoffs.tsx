@@ -113,7 +113,6 @@ export default function SeeTakeoffs() {
             value={password} onChange={event => setPassword(event.target.value)} />
           <button disabled={busy}>{busy ? 'Signing in...' : 'View webcam'}</button>
         </form>
-        <p className={styles.muted}>Your sign-in lasts approximately 30 days on this browser.</p>
       </section> : <section className={styles.card} aria-label="Webcam viewer" aria-busy={busy}>
         <div className={styles.actions}><button onClick={refresh} disabled={busy}>{busy ? 'Refreshing...' : 'Refresh'}</button>
           <button className={styles.secondary} onClick={logout} disabled={busy}>Log out</button></div>
