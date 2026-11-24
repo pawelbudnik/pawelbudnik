@@ -117,7 +117,7 @@ export default function SeeTakeoffs() {
         <div className={styles.actions}><button onClick={refresh} disabled={busy}>{busy ? 'Refreshing...' : 'Refresh'}</button>
           <button className={styles.secondary} onClick={logout} disabled={busy}>Log out</button></div>
         {photo && <img className={styles.photo} src={photo} alt={status?.active ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
-        {status && !status.active && <h2 className={styles.night}>Sorry, no more flying now anyway :P</h2>}
+        {status && !status.active && <h2 className={styles.night}>Sorry, can&apos;t see shit now anyway ¯\(ツ)/¯</h2>}
         <p className={styles.muted}>{status?.captured ? 'Last successful capture: ' + displayTime(status.captured) : 'Awaiting the first successful capture.'}</p>
         {status?.opens && status.closes && <p className={styles.muted}>Capture window: {displayTime(status.opens)} - {displayTime(status.closes)}</p>}
       </section>}
