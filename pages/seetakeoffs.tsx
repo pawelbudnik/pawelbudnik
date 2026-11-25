@@ -3,11 +3,13 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/PilotSpy.module.css';
 
+const CAPTURE_INTERVAL = 300000;
+const CAPTURE_UPLOAD_DELAY = 15000;
 const API = 'https://webcam.pawelbudnik.com';
 type SnapshotStatus = { active: boolean; captured: string | null; opens: string | null; closes: string | null };
 const displayTime = (value: string) => new Date(value).toLocaleString('en-GB', {
   timeZone: 'Europe/Zurich', day: '2-digit', month: '2-digit', year: 'numeric',
-  hour: '2-digit', minute: '2-digit', hour12: false,
+  hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
 });
 
 export default function SeeTakeoffs() {
@@ -19,6 +21,9 @@ export default function SeeTakeoffs() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const [showingLastCapture, setShowingLastCapture] = useState(false);
+  const [now, setNow] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const imageDialog = useRef<HTMLDialogElement | null>(null);
   const lastCapture = useRef(false);
   const request = useRef<AbortController | null>(null);
   const generation = useRef(0);
@@ -59,11 +64,17 @@ export default function SeeTakeoffs() {
 
   useEffect(() => {
     refresh();
-    const timer = window.setInterval(refresh, 300000);
+    let timer: number;
+    const schedule = () => {
+      // Capture runs in five-minute clock slots; allow time for upload to finish.
+      const delay = CAPTURE_INTERVAL - ((Date.now() - CAPTURE_UPLOAD_DELAY) % CAPTURE_INTERVAL);
+      timer = window.setTimeout(() => { refresh(); schedule(); }, delay);
+    };
+    schedule();
     const visible = () => { if (!document.hidden) refresh(); };
     document.addEventListener('visibilitychange', visible);
     const cancel = () => { ++generation.current; request.current?.abort(); };
-    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', visible); cancel(); };
+    return () => { clearTimeout(timer); document.removeEventListener('visibilitychange', visible); cancel(); };
   }, [refresh]);
 
   useEffect(() => {
@@ -73,6 +84,34 @@ export default function SeeTakeoffs() {
     }, Math.max(0, new Date(status.closes).getTime() - Date.now()) + 50);
     return () => clearTimeout(timer);
   }, [status, refresh]);
+
+  useEffect(() => {
+    const tick = () => setNow(new Date().toISOString());
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!photo) imageDialog.current?.close();
+  }, [photo]);
+
+  async function openImage() {
+    const dialog = imageDialog.current;
+    if (!dialog) return;
+    setZoom(1);
+    dialog.showModal();
+    try { await dialog.requestFullscreen?.(); } catch { /* The modal fills the viewport when fullscreen is unavailable. */ }
+  }
+
+  function closeImage() {
+    imageDialog.current?.close();
+  }
+
+  function imageClosed() {
+    if (document.fullscreenElement === imageDialog.current) document.exitFullscreen().catch(() => {});
+    setZoom(1);
+  }
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setMessage('');
@@ -119,14 +158,29 @@ export default function SeeTakeoffs() {
       </section> : <section className={`${styles.card} ${styles.viewer}`} aria-label="Webcam viewer" aria-busy={busy}>
         <div className={styles.actions}><button onClick={refresh} disabled={busy}>{busy ? 'Refreshing...' : 'Refresh'}</button>
           <button className={styles.secondary} onClick={logout} disabled={busy}>Log out</button></div>
-        {photo && <img className={styles.photo} src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
+        {photo && <button className={styles.photoButton} onClick={openImage} aria-label="Open image full screen">
+          <img className={styles.photo} src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />
+        </button>}
         {status && !status.active && <h2 className={styles.night}>Sorry, can&apos;t see shit now anyway ¯\(ツ)/¯</h2>}
         {status && !status.active && <div><button disabled={busy || (!showingLastCapture && !status.captured)}
           onClick={() => { lastCapture.current = !showingLastCapture; refresh(); }}>
           {showingLastCapture ? 'Show cat' : 'Last capture'}
         </button></div>}
-        {status?.opens && status.closes && <p className={styles.muted}>Capture window: {displayTime(status.opens)} - {displayTime(status.closes)}</p>}
+        {now && <p className={styles.muted}><time dateTime={now}>{displayTime(now)}</time></p>}
       </section>}
+    <dialog ref={imageDialog} className={styles.imageDialog} onClose={imageClosed} aria-label="Full-screen image viewer">
+      <div className={styles.zoomControls}>
+        <button onClick={() => setZoom(value => Math.max(1, value - 0.5))} disabled={zoom <= 1} aria-label="Zoom out">-</button>
+        <button onClick={() => setZoom(1)} aria-label="Fit image to screen">{Math.round(zoom * 100)}% / Fit</button>
+        <button onClick={() => setZoom(value => Math.min(5, value + 0.5))} disabled={zoom >= 5} aria-label="Zoom in">+</button>
+        <button onClick={closeImage}>Close</button>
+      </div>
+      <div className={styles.zoomViewport}>
+        <div className={styles.zoomCanvas} style={{ width: `${zoom * 100}%`, height: `${zoom * 100}%` }}>
+          {photo && <img src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
+        </div>
+      </div>
+    </dialog>
     <p className={styles.message} role="status" aria-live="polite">{message}</p>
     <p className={styles.hours}>Snapshots operate from one hour before sunrise until 30 minutes after sunset.<br />
       Automatically refreshed every five minutes.</p>

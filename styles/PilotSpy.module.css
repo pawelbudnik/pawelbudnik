@@ -8,7 +8,7 @@
 .page button:focus-visible,.form input:focus-visible { outline:3px solid #509b8b; outline-offset:3px; }
 .actions { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
 .actions .secondary { background:transparent; color:#165e50; }
-.photo { display:block; width:100%; height:0; min-height:0; flex:1; object-fit:contain; background:#eef3f2; border-radius:12px; }
+.photo { display:block; width:100%; height:100%; object-fit:contain; background:#eef3f2; border-radius:12px; }
 .night { font-size:clamp(20px,4vw,28px); margin:22px 0 12px; font-weight:600; line-height:1.4; }
 .muted { color:#46645f; line-height:1.7; margin-top:16px; overflow-wrap:anywhere; }
 .hours { line-height:1.8; font-size:14px; color:#46645f; }
@@ -18,3 +18,12 @@
 .card.viewer { display:flex; flex-direction:column; width:100%; height:100vh; height:100svh; margin:0; padding:16px; border:0; border-radius:0; box-sizing:border-box; }
 .viewerPage > .message,.viewerPage > .hours { margin:16px; }
 .viewerPage > .message:empty { display:none; }
+
+.page .photoButton { display:block; flex:1; min-height:0; width:100%; padding:0; border:0; background:#eef3f2; box-shadow:none; cursor:zoom-in; overflow:hidden; }
+.imageDialog { position:fixed; inset:0; width:100vw; max-width:none; height:100vh; height:100dvh; max-height:none; margin:0; padding:12px; border:0; background:#101615; color:#fff; box-sizing:border-box; }
+.imageDialog[open] { display:grid; grid-template-rows:auto minmax(0,1fr); gap:12px; }
+.imageDialog::backdrop { background:#101615; }
+.zoomControls { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+.zoomViewport { overflow:auto; min-height:0; overscroll-behavior:contain; }
+.zoomCanvas { display:flex; align-items:center; justify-content:center; }
+.zoomCanvas img { display:block; width:100%; height:100%; object-fit:contain; max-width:none; }
