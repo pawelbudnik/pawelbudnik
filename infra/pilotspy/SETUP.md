@@ -16,12 +16,15 @@ cryptographically random values; local copies are encrypted with Windows DPAPI
 under the operator's LocalAppData/PilotSpy directory and never enter the repo.
 The original cat photo is stored privately as `cat.jpg`.
 
-Only authenticated sessions can retrieve `/image`, `/cat`, and `/status`.
+Only authenticated sessions can retrieve `/image`, `/last-capture`, `/cat`, and `/status`.
+During private hours the viewer defaults to the cat. The Last capture button
+explicitly loads the saved daytime JPEG through `/last-capture`; it does not
+trigger a new camera capture. Deploy the Worker alongside the viewer for this feature.
 `/upload` and `/schedule` require the independent upload bearer token. Captures
 replace `current.jpg` atomically. The schedule is published separately so nighttime
 hours can be shown without taking a nighttime photo. The image route independently
 checks capture-window metadata; the browser also clears the displayed mountain
-image at closing time. Downloaded images cannot be revoked from a visitor's device.
+image at closing time, returning to the cat until Last capture is selected. Downloaded images cannot be revoked from a visitor's device.
 
 Cookies are host-only, Secure, HttpOnly and SameSite=Strict, with a 30-day lifetime.
 Logout clears the cookie. Login allows approximately five attempts per IP per

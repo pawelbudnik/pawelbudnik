@@ -8,9 +8,13 @@
 .page button:focus-visible,.form input:focus-visible { outline:3px solid #509b8b; outline-offset:3px; }
 .actions { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
 .actions .secondary { background:transparent; color:#165e50; }
-.photo { display:block; width:100%; height:auto; max-height:70vh; object-fit:contain; background:#eef3f2; border-radius:12px; }
+.photo { display:block; width:100%; height:0; min-height:0; flex:1; object-fit:contain; background:#eef3f2; border-radius:12px; }
 .night { font-size:clamp(20px,4vw,28px); margin:22px 0 12px; font-weight:600; line-height:1.4; }
 .muted { color:#46645f; line-height:1.7; margin-top:16px; overflow-wrap:anywhere; }
 .hours { line-height:1.8; font-size:14px; color:#46645f; }
 .message { min-height:1.6em; margin:16px 0; color:#8b3024; line-height:1.6; }
 @media(max-width:480px) { .page{padding-top:8px} .card{border-radius:14px} .actions button{flex:1} }
+.page.viewerPage { max-width:none; padding:0; }
+.card.viewer { display:flex; flex-direction:column; width:100%; height:100vh; height:100svh; margin:0; padding:16px; border:0; border-radius:0; box-sizing:border-box; }
+.viewerPage > .message,.viewerPage > .hours { margin:16px; }
+.viewerPage > .message:empty { display:none; }

@@ -40,7 +40,7 @@ async function route(req,env) {
   if(url.protocol !== 'https:') return response('HTTPS required',400);
   if(path === '/' && ['GET','HEAD'].includes(req.method)) return response(null,308,{'Location':VIEWER});
   if(req.method==='OPTIONS') {
-    if(!sameOrigin(req) || !['/login','/logout','/status','/image','/cat'].includes(path)) return response('Forbidden',403);
+    if(!sameOrigin(req) || !['/login','/logout','/status','/image','/last-capture','/cat'].includes(path)) return response('Forbidden',403);
     return response(null,204,{'Access-Control-Allow-Methods':'GET, POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type','Access-Control-Max-Age':'600'});
   }
   if(path === '/login' && req.method==='POST') {
@@ -75,9 +75,14 @@ async function route(req,env) {
     await env.SNAPSHOTS.put('current.jpg',bytes,{httpMetadata:{contentType:'image/jpeg'},customMetadata:{captured:String(captured),start:String(start),end:String(end)}});
     return json({ok:true});
   }
-  if(!['/status','/image','/cat'].includes(path) || req.method!=='GET') return response('Not found',404);
+  if(!['/status','/image','/last-capture','/cat'].includes(path) || req.method!=='GET') return response('Not found',404);
   if(!await authenticated(req,env)) return json({error:'Please enter the viewing password.'},401);
   if(path==='/cat') { const cat=await env.SNAPSHOTS.get('cat.jpg'); return cat?response(cat.body,200,{'Content-Type':'image/jpeg'}):response('Cat photo not installed yet',404); }
+  // Explicit authenticated access to the last saved daytime snapshot, including private hours.
+  if(path==='/last-capture') {
+    const image=await env.SNAPSHOTS.get('current.jpg');
+    return image?response(image.body,200,{'Content-Type':'image/jpeg'}):response('No captured snapshot available',404);
+  }
   const object=await env.SNAPSHOTS.head('current.jpg');
   const meta=object?.customMetadata;
   const scheduleObject=await env.SNAPSHOTS.get('schedule.json');

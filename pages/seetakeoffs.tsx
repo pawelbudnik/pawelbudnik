@@ -18,6 +18,8 @@ export default function SeeTakeoffs() {
   const [status, setStatus] = useState<SnapshotStatus | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [message, setMessage] = useState('');
+  const [showingLastCapture, setShowingLastCapture] = useState(false);
+  const lastCapture = useRef(false);
   const request = useRef<AbortController | null>(null);
   const generation = useRef(0);
 
@@ -38,16 +40,16 @@ export default function SeeTakeoffs() {
       const next: SnapshotStatus = await result.json();
       if (current !== generation.current) return;
       setAuthenticated(true); setStatus(next);
-      // Remove a mountain snapshot immediately when the API reports private hours.
-      if (!next.active) setPhoto(null);
-      const image = await fetch(API + (next.active ? '/image' : '/cat'), {
+      if (next.active) lastCapture.current = false;
+      const showLast = !next.active && lastCapture.current;
+      const image = await fetch(API + (next.active ? '/image' : showLast ? '/last-capture' : '/cat'), {
         credentials: 'include', cache: 'no-store', signal: controller.signal,
       });
       if (image.status === 401) { setAuthenticated(false); setPhoto(null); return; }
-      if (!image.ok) { setPhoto(null); throw new Error(next.active ? 'Awaiting a successful mountain snapshot.' : 'The off-duty photo is temporarily unavailable.'); }
+      if (!image.ok) { setPhoto(null); throw new Error(next.active || showLast ? 'No captured snapshot is available yet.' : 'The off-duty photo is temporarily unavailable.'); }
       const blob = await image.blob();
       if (current !== generation.current) return;
-      setPhoto(URL.createObjectURL(blob)); setMessage('');
+      setPhoto(URL.createObjectURL(blob)); setShowingLastCapture(showLast); setMessage('');
     } catch (error) {
       if (!controller.signal.aborted && current === generation.current) setMessage(error instanceof Error ? error.message : 'Connection unavailable. Please try again.');
     } finally {
@@ -88,6 +90,7 @@ export default function SeeTakeoffs() {
   }
 
   async function logout() {
+    lastCapture.current = false; setShowingLastCapture(false);
     ++generation.current; request.current?.abort(); setPhoto(null); setBusy(true);
     try {
       const result = await fetch(API + '/logout', { method: 'POST', credentials: 'include' });
@@ -97,7 +100,7 @@ export default function SeeTakeoffs() {
     finally { setBusy(false); }
   }
 
-  return <main className={styles.page}>
+  return <main className={`${styles.page} ${authenticated ? styles.viewerPage : ''}`}>
     <Head>
       <title>PilotSpy - See takeoffs</title>
       <meta name="description" content="Private mountain weather snapshots for planning your next flight." />
@@ -113,16 +116,19 @@ export default function SeeTakeoffs() {
             value={password} onChange={event => setPassword(event.target.value)} />
           <button disabled={busy}>{busy ? 'Signing in...' : 'View webcam'}</button>
         </form>
-      </section> : <section className={styles.card} aria-label="Webcam viewer" aria-busy={busy}>
+      </section> : <section className={`${styles.card} ${styles.viewer}`} aria-label="Webcam viewer" aria-busy={busy}>
         <div className={styles.actions}><button onClick={refresh} disabled={busy}>{busy ? 'Refreshing...' : 'Refresh'}</button>
           <button className={styles.secondary} onClick={logout} disabled={busy}>Log out</button></div>
-        {photo && <img className={styles.photo} src={photo} alt={status?.active ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
+        {photo && <img className={styles.photo} src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
         {status && !status.active && <h2 className={styles.night}>Sorry, can&apos;t see shit now anyway ¯\(ツ)/¯</h2>}
-        <p className={styles.muted}>{status?.captured ? 'Last successful capture: ' + displayTime(status.captured) : 'Awaiting the first successful capture.'}</p>
+        {status && !status.active && <div><button disabled={busy || (!showingLastCapture && !status.captured)}
+          onClick={() => { lastCapture.current = !showingLastCapture; refresh(); }}>
+          {showingLastCapture ? 'Show cat' : 'Last capture'}
+        </button></div>}
         {status?.opens && status.closes && <p className={styles.muted}>Capture window: {displayTime(status.opens)} - {displayTime(status.closes)}</p>}
       </section>}
     <p className={styles.message} role="status" aria-live="polite">{message}</p>
     <p className={styles.hours}>Snapshots operate from one hour before sunrise until 30 minutes after sunset.<br />
-      Automatically refreshed every five minutes. Operational times come from Home Assistant&apos;s sun.sun entity.</p>
+      Automatically refreshed every five minutes.</p>
   </main>;
 }
