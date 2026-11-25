@@ -28,3 +28,5 @@
 .zoomViewport:active { cursor:grabbing; }
 .zoomCanvas { display:flex; width:100%; height:100%; align-items:center; justify-content:center; transform-origin:center; pointer-events:none; will-change:transform; }
 .zoomCanvas img { display:block; width:100%; height:100%; object-fit:contain; max-width:none; }
+
+.clock { color:#46645f; line-height:1.7; margin:12px 0 0; text-align:center; flex-shrink:0; }

@@ -216,12 +216,12 @@ export default function SeeTakeoffs() {
         {photo && <button className={styles.photoButton} onClick={openImage} aria-label="Open image full screen">
           <img className={styles.photo} src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />
         </button>}
+        {now && <p className={styles.clock}><time dateTime={now}>{displayTime(now)}</time></p>}
         {status && !status.active && <h2 className={styles.night}>Sorry, can&apos;t see shit now anyway ¯\(ツ)/¯</h2>}
         {status && !status.active && <div><button disabled={busy || (!showingLastCapture && !status.captured)}
           onClick={() => { lastCapture.current = !showingLastCapture; refresh(); }}>
           {showingLastCapture ? 'Show cat' : 'Last capture'}
         </button></div>}
-        {now && <p className={styles.muted}><time dateTime={now}>{displayTime(now)}</time></p>}
       </section>}
     <dialog ref={imageDialog} className={styles.imageDialog} onClose={imageClosed} aria-label="Full-screen image viewer">
       <div className={styles.zoomControls}>
