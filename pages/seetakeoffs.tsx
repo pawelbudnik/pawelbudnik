@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element -- Protected image blobs must stay in this browser. */
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { PointerEvent as ReactPointerEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/PilotSpy.module.css';
 
@@ -23,6 +23,10 @@ export default function SeeTakeoffs() {
   const [showingLastCapture, setShowingLastCapture] = useState(false);
   const [now, setNow] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const view = useRef({ zoom: 1, x: 0, y: 0 });
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+  const zoomViewport = useRef<HTMLDivElement | null>(null);
   const imageDialog = useRef<HTMLDialogElement | null>(null);
   const lastCapture = useRef(false);
   const request = useRef<AbortController | null>(null);
@@ -96,10 +100,61 @@ export default function SeeTakeoffs() {
     if (!photo) imageDialog.current?.close();
   }, [photo]);
 
+  function updateView(nextZoom: number, x = view.current.x, y = view.current.y) {
+    const bounds = zoomViewport.current?.getBoundingClientRect();
+    const scale = Math.max(1, Math.min(5, nextZoom));
+    const maxX = (bounds?.width || 0) * (scale - 1) / 2;
+    const maxY = (bounds?.height || 0) * (scale - 1) / 2;
+    view.current = { zoom: scale, x: Math.max(-maxX, Math.min(maxX, x)), y: Math.max(-maxY, Math.min(maxY, y)) };
+    setZoom(scale);
+    setPan({ x: view.current.x, y: view.current.y });
+  }
+
+  function resetView() {
+    pointers.current.clear();
+    updateView(1, 0, 0);
+  }
+
+  function pointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  }
+
+  function pointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const previous = pointers.current.get(event.pointerId);
+    if (!previous) return;
+    const before = Array.from(pointers.current.values());
+    pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const after = Array.from(pointers.current.values());
+    const current = view.current;
+    if (before.length === 1) {
+      updateView(current.zoom, current.x + event.clientX - previous.x, current.y + event.clientY - previous.y);
+    } else if (before.length === 2) {
+      const distance = (points: typeof before) => Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+      const oldDistance = distance(before);
+      if (oldDistance < 1) return;
+      const nextZoom = Math.max(1, Math.min(5, current.zoom * distance(after) / oldDistance));
+      const ratio = nextZoom / current.zoom;
+      const bounds = event.currentTarget.getBoundingClientRect();
+      const oldX = (before[0].x + before[1].x) / 2 - bounds.left - bounds.width / 2;
+      const oldY = (before[0].y + before[1].y) / 2 - bounds.top - bounds.height / 2;
+      const newX = (after[0].x + after[1].x) / 2 - bounds.left - bounds.width / 2;
+      const newY = (after[0].y + after[1].y) / 2 - bounds.top - bounds.height / 2;
+      // Keep the image point beneath the fingers stationary while scaling and moving.
+      updateView(nextZoom, newX - (oldX - current.x) * ratio, newY - (oldY - current.y) * ratio);
+    }
+  }
+
+  function pointerEnd(event: ReactPointerEvent<HTMLDivElement>) {
+    pointers.current.delete(event.pointerId);
+  }
+
   async function openImage() {
     const dialog = imageDialog.current;
     if (!dialog) return;
-    setZoom(1);
+    resetView();
     dialog.showModal();
     try { await dialog.requestFullscreen?.(); } catch { /* The modal fills the viewport when fullscreen is unavailable. */ }
   }
@@ -110,7 +165,7 @@ export default function SeeTakeoffs() {
 
   function imageClosed() {
     if (document.fullscreenElement === imageDialog.current) document.exitFullscreen().catch(() => {});
-    setZoom(1);
+    resetView();
   }
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -170,14 +225,16 @@ export default function SeeTakeoffs() {
       </section>}
     <dialog ref={imageDialog} className={styles.imageDialog} onClose={imageClosed} aria-label="Full-screen image viewer">
       <div className={styles.zoomControls}>
-        <button onClick={() => setZoom(value => Math.max(1, value - 0.5))} disabled={zoom <= 1} aria-label="Zoom out">-</button>
-        <button onClick={() => setZoom(1)} aria-label="Fit image to screen">{Math.round(zoom * 100)}% / Fit</button>
-        <button onClick={() => setZoom(value => Math.min(5, value + 0.5))} disabled={zoom >= 5} aria-label="Zoom in">+</button>
+        <button onClick={() => updateView(view.current.zoom - 0.5)} disabled={zoom <= 1} aria-label="Zoom out">-</button>
+        <button onClick={resetView} aria-label="Fit image to screen">{Math.round(zoom * 100)}% / Fit</button>
+        <button onClick={() => updateView(view.current.zoom + 0.5)} disabled={zoom >= 5} aria-label="Zoom in">+</button>
         <button onClick={closeImage}>Close</button>
       </div>
-      <div className={styles.zoomViewport}>
-        <div className={styles.zoomCanvas} style={{ width: `${zoom * 100}%`, height: `${zoom * 100}%` }}>
-          {photo && <img src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
+      <div ref={zoomViewport} className={styles.zoomViewport}
+        onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd}
+        onPointerCancel={pointerEnd} onLostPointerCapture={pointerEnd}>
+        <div className={styles.zoomCanvas} style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }}>
+          {photo && <img draggable={false} src={photo} alt={status?.active || showingLastCapture ? 'Latest mountain snapshot' : 'Our cat, off duty'} />}
         </div>
       </div>
     </dialog>
