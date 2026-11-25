@@ -194,6 +194,16 @@ export default function SeeTakeoffs() {
     finally { setBusy(false); }
   }
 
+  const windowTime = (value: string) => {
+    const date = new Date(value);
+    const options = { timeZone: 'Europe/Zurich' };
+    const sameDay = now && date.toLocaleDateString('en-GB', options) === new Date(now).toLocaleDateString('en-GB', options);
+    return date.toLocaleString('en-GB', {
+      ...options, ...(sameDay ? {} : { day: '2-digit', month: '2-digit', year: 'numeric' } as const),
+      hour: '2-digit', minute: '2-digit', hour12: false,
+    });
+  };
+
   return <main className={`${styles.page} ${authenticated ? styles.viewerPage : ''}`}>
     <Head>
       <title>PilotSpy - See takeoffs</title>
@@ -239,7 +249,7 @@ export default function SeeTakeoffs() {
       </div>
     </dialog>
     <p className={styles.message} role="status" aria-live="polite">{message}</p>
-    <p className={styles.hours}>Snapshots operate from one hour before sunrise until 30 minutes after sunset.<br />
+    <p className={styles.hours}>Snapshots operate from one hour before sunrise{status?.opens && <> ({windowTime(status.opens)})</>} until 30 minutes after sunset{status?.closes && <> ({windowTime(status.closes)})</>}.<br />
       Automatically refreshed every five minutes.</p>
   </main>;
 }
